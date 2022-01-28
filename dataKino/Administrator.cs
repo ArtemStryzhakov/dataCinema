@@ -39,18 +39,15 @@ namespace MinuVorm
         Label lbl2_UP;
         Label lbl3_UP;
         Label lbl4_UP;
-        Label lbl5_UP;
-        Label lbl_ID;
         TextBox text1_UP;
         TextBox text2_UP;
         TextBox text3_UP;
         TextBox text4_UP;
-        TextBox text5_UP;
+
         Button add_UP;
+
+        int Id;
         //-------------
-        Label lbl_ID_1;
-        Label lbl5_DL;
-        TextBox text5_DL;
         Button add_DL;
 
         static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
@@ -249,16 +246,11 @@ namespace MinuVorm
                 text4_UP.Hide();
                 add_UP.Hide();
                 dataGridView1.Hide();
-                lbl_ID.Hide();
-                text5_UP.Hide();
-                lbl5_UP.Hide();
             }
 
-            if (lbl_ID_1 != null)
+
+            if (add_DL != null)
             {
-                lbl_ID_1.Hide();
-                lbl5_DL.Hide();
-                text5_DL.Hide();
                 add_DL.Hide();
                 dataGridView2.Hide();
             }
@@ -285,17 +277,11 @@ namespace MinuVorm
                 text3_UP.Hide();
                 text4_UP.Hide();
                 add_UP.Hide();
-                dataGridView1.Hide();
-                lbl_ID.Hide();
-                text5_UP.Hide();
-                lbl5_UP.Hide();               
+                dataGridView1.Hide();             
             }
 
-            if (lbl_ID_1 != null)
+            if (add_DL != null)
             {
-                lbl_ID_1.Hide();
-                lbl5_DL.Hide();
-                text5_DL.Hide();
                 add_DL.Hide();
                 dataGridView2.Hide();
             }
@@ -395,9 +381,7 @@ namespace MinuVorm
             this.Controls.Add(text2);
             this.Controls.Add(text3);
             this.Controls.Add(text4);
-            this.Controls.Add(add);
-
-            
+            this.Controls.Add(add);            
         }
 
         private void Add_Click(object sender, EventArgs e)
@@ -418,7 +402,7 @@ namespace MinuVorm
 
         private void Update_Click(object sender, EventArgs e)
         {
-            this.Size = new Size(700, 750);
+            this.Size = new Size(700, 600);
 
             if (dataGridView != null)
             {
@@ -439,11 +423,8 @@ namespace MinuVorm
                 add.Hide();
             }
 
-            if (lbl_ID_1 != null)
+            if (add_DL != null)
             {
-                lbl_ID_1.Hide();
-                lbl5_DL.Hide();
-                text5_DL.Hide();
                 add_DL.Hide();
                 dataGridView2.Hide();
             }
@@ -498,26 +479,6 @@ namespace MinuVorm
                 ForeColor = Color.White
             };
 
-            lbl_ID = new Label()
-            {
-                Text = "Select ID: ",
-                Size = new Size(140, 30),
-                Font = new Font(Font.FontFamily, 20),
-                Location = new Point(260, 340),
-                BackColor = Color.Purple,
-                ForeColor = Color.White
-            };
-
-            lbl5_UP = new Label()
-            {
-                Text = "ID: ",
-                Size = new Size(30, 20),
-                Font = new Font(Font.FontFamily, 10),
-                Location = new Point(270, 380),
-                BackColor = Color.Purple,
-                ForeColor = Color.White
-            };
-
             text1_UP = new TextBox()
             {
                 Size = new Size(120, 30),
@@ -542,19 +503,13 @@ namespace MinuVorm
                 Location = new Point(290, 280)
             };
 
-            text5_UP = new TextBox()
-            {
-                Size = new Size(50, 30),
-                Location = new Point(310, 380)
-            };
-
             add_UP = new Button()
             {
                 Text = "Update",
                 Size = new Size(160, 40),
                 BackColor = Color.Purple,
                 ForeColor = Color.White,
-                Location = new Point(235, 420),
+                Location = new Point(235, 310),
                 Font = new Font(Font.FontFamily, 10)
             };
 
@@ -563,11 +518,13 @@ namespace MinuVorm
             DataTable tabel = new DataTable();
             dataGridView1 = new DataGridView();
 
-            SqlDataAdapter adapter = new SqlDataAdapter("select id, name, dateM from [dbo].[Movie]", connect_to_DB);
+            SqlDataAdapter adapter = new SqlDataAdapter("select id, name, genre, dateM, image from [dbo].[Movie]", connect_to_DB);
             adapter.Fill(tabel);
             dataGridView1.DataSource = tabel;
-            dataGridView1.Location = new Point(150, 500);
-            dataGridView1.Size = new Size(355, 150);
+            dataGridView1.Location = new Point(50, 370);
+            dataGridView1.Size = new Size(545, 150);
+
+            dataGridView1.RowHeaderMouseClick += DataGridView1_RowHeaderMouseClick;
             
             this.Controls.Add(dataGridView1);
 
@@ -576,14 +533,27 @@ namespace MinuVorm
             this.Controls.Add(lbl2_UP);
             this.Controls.Add(lbl3_UP);
             this.Controls.Add(lbl4_UP);
-            this.Controls.Add(lbl5_UP);
             this.Controls.Add(text1_UP);
             this.Controls.Add(text2_UP);
             this.Controls.Add(text3_UP);                                                       
             this.Controls.Add(text4_UP);
-            this.Controls.Add(lbl_ID);
-            this.Controls.Add(text5_UP);
             this.Controls.Add(add_UP);
+        }
+
+        private void DataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Id = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString());
+            text1_UP.Text = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+            text2_UP.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+            text3_UP.Text = "0000-00-00";
+            if (dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString() == "")
+            {
+                text4_UP.Text = "null";
+            }
+            else
+            {
+                text4_UP.Text = dataGridView1.Rows[e.RowIndex].Cells[4].Value.ToString();
+            }          
         }
 
         private void Delete_Click(object sender, EventArgs e)
@@ -622,36 +592,7 @@ namespace MinuVorm
                 text4_UP.Hide();
                 add_UP.Hide();
                 dataGridView1.Hide();
-                lbl_ID.Hide();
-                text5_UP.Hide();
-                lbl5_UP.Hide();
             }
-
-            lbl_ID_1 = new Label()
-            {
-                Text = "Select ID: ",
-                Size = new Size(140, 30),
-                Font = new Font(Font.FontFamily, 20),
-                Location = new Point(260, 110),
-                BackColor = Color.Purple,
-                ForeColor = Color.White
-            };
-
-            lbl5_DL = new Label()
-            {
-                Text = "ID: ",
-                Size = new Size(30, 20),
-                Font = new Font(Font.FontFamily, 10),
-                Location = new Point(270, 150),
-                BackColor = Color.Purple,
-                ForeColor = Color.White
-            };
-
-            text5_DL = new TextBox()
-            {
-                Size = new Size(50, 30),
-                Location = new Point(310, 150)
-            };
 
             add_DL = new Button()
             {
@@ -659,7 +600,7 @@ namespace MinuVorm
                 Size = new Size(160, 40),
                 BackColor = Color.Purple,
                 ForeColor = Color.White,
-                Location = new Point(235, 190),
+                Location = new Point(235, 140),
                 Font = new Font(Font.FontFamily, 10)
             };
 
@@ -671,15 +612,19 @@ namespace MinuVorm
             SqlDataAdapter adapter = new SqlDataAdapter("select id, name, dateM from [dbo].[Movie]", connect_to_DB);
             adapter.Fill(tabel);
             dataGridView2.DataSource = tabel;
-            dataGridView2.Location = new Point(150, 250);
+            dataGridView2.Location = new Point(150, 200);
             dataGridView2.Size = new Size(355, 150);
+
+            dataGridView2.RowHeaderMouseClick += DataGridView2_RowHeaderMouseClick;
 
             this.Controls.Add(dataGridView2);
 
-            this.Controls.Add(lbl_ID_1);
-            this.Controls.Add(lbl5_DL);
-            this.Controls.Add(text5_DL);
             this.Controls.Add(add_DL);
+        }
+
+        private void DataGridView2_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Id = Convert.ToInt32(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString());
         }
 
         private void Add_DL_Click(object sender, EventArgs e)
@@ -687,7 +632,7 @@ namespace MinuVorm
             connect_to_DB.Open();
 
             command = new SqlCommand("delete from Movie where id = @id", connect_to_DB);
-            command.Parameters.AddWithValue("@id", text5_DL.Text);
+            command.Parameters.AddWithValue("@id", Id);
             command.ExecuteNonQuery();
 
             MessageBox.Show("Delete is completed.");
@@ -700,11 +645,11 @@ namespace MinuVorm
             connect_to_DB.Open();
 
             command = new SqlCommand("update Movie set name = @name, genre = @genre, dateM = @dateM, image = @image where id = @id", connect_to_DB);
+            command.Parameters.AddWithValue("@id", Id);
             command.Parameters.AddWithValue("@name", text1_UP.Text);
             command.Parameters.AddWithValue("@genre", text2_UP.Text);
             command.Parameters.AddWithValue("@dateM", text3_UP.Text);
             command.Parameters.AddWithValue("@image", text4_UP.Text);
-            command.Parameters.AddWithValue("@id", text5_UP.Text);
             command.ExecuteNonQuery();
 
             MessageBox.Show("Update is completed.");
