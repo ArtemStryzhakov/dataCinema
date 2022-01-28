@@ -16,6 +16,13 @@ namespace MinuVorm
         MyForm form = new MyForm();
         Start_form startForm = new Start_form();
 
+        Label authorization;
+        Label login_lbl;
+        TextBox login_txt;
+        Label password_lbl;
+        TextBox password_txt;
+        Button accept_admin;
+        //-------------
         Label title;
         Label lbl1;
         Label lbl2;
@@ -46,7 +53,7 @@ namespace MinuVorm
         TextBox text5_DL;
         Button add_DL;
 
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
         public SqlCommand command;
@@ -57,63 +64,147 @@ namespace MinuVorm
 
         public Administrator()
         {
-            this.Size = new Size(700, 600);
+            this.Size = new Size(450, 300);
             this.Text = "Administrator";
+
             this.BackgroundImage = new Bitmap("../../image/wallpaper.jpg");
-            this.Icon = Properties.Resources.administrator;           
+            this.Icon = Properties.Resources.administrator;
 
-            Button select = new Button()
+            authorization = new Label()
             {
-                Text = "Select",
+                Text = "Authorization:",
+                Size = new Size(185, 35),
+                Font = new Font(Font.FontFamily, 20),
+                Location = new Point(140, 40),
+                BackColor = Color.Purple,
+                ForeColor = Color.White
+            };
+
+            login_lbl = new Label()
+            {
+                Text = "Login: ",
+                Size = new Size(50, 20),
+                Font = new Font(Font.FontFamily, 10),
+                Location = new Point(150, 100),
+                BackColor = Color.Purple,
+                ForeColor = Color.White
+            };
+
+            login_txt = new TextBox()
+            {
+                Size = new Size(100, 20),
+                Location = new Point(210, 100)
+            };
+
+            password_lbl = new Label()
+            {
+                Text = "Password: ",
+                Size = new Size(80, 20),
+                Font = new Font(Font.FontFamily, 10),
+                Location = new Point(120, 140),
+                BackColor = Color.Purple,
+                ForeColor = Color.White
+            };
+
+            password_txt = new TextBox()
+            {
+                Size = new Size(100, 20),
+                Location = new Point(210, 140),
+                PasswordChar = '*'
+            };
+
+            accept_admin = new Button()
+            {
+                Text = "Confirm",
                 Size = new Size(100, 40),
                 BackColor = Color.Purple,
                 ForeColor = Color.White,
-                Location = new Point(50, 20),
+                Location = new Point(170, 185),
                 Font = new Font(Font.FontFamily, 10)
             };
 
-            select.Click += select_Click;
+            accept_admin.Click += Accept_admin_Click;
 
-            Button insert = new Button()
+            this.Controls.Add(authorization);
+            this.Controls.Add(login_lbl);
+            this.Controls.Add(password_lbl);
+            this.Controls.Add(login_txt);
+            this.Controls.Add(password_txt);
+            this.Controls.Add(accept_admin);                     
+        }
+
+        private void Accept_admin_Click(object sender, EventArgs e)
+        {
+            if (login_txt.Text == "admin" && password_txt.Text == "admin")
             {
-                Text = "Insert",
-                Size = new Size(100, 40),
-                BackColor = Color.Purple,
-                ForeColor = Color.White,
-                Location = new Point(210, 20),
-                Font = new Font(Font.FontFamily, 10)
-            };
+                login_lbl.Hide();
+                login_txt.Hide();
+                password_lbl.Hide();
+                password_txt.Hide();
+                accept_admin.Hide();
+                authorization.Hide();
 
-            insert.Click += Insert_Click;
+                this.Size = new Size(700, 600);
 
-            Button update = new Button()
+                Button select = new Button()
+                {
+                    Text = "Select",
+                    Size = new Size(100, 40),
+                    BackColor = Color.Purple,
+                    ForeColor = Color.White,
+                    Location = new Point(50, 20),
+                    Font = new Font(Font.FontFamily, 10)
+                };
+
+                select.Click += select_Click;
+
+                Button insert = new Button()
+                {
+                    Text = "Insert",
+                    Size = new Size(100, 40),
+                    BackColor = Color.Purple,
+                    ForeColor = Color.White,
+                    Location = new Point(210, 20),
+                    Font = new Font(Font.FontFamily, 10)
+                };
+
+                insert.Click += Insert_Click;
+
+                Button update = new Button()
+                {
+                    Text = "Update",
+                    Size = new Size(100, 40),
+                    BackColor = Color.Purple,
+                    ForeColor = Color.White,
+                    Location = new Point(375, 20),
+                    Font = new Font(Font.FontFamily, 10)
+                };
+
+                update.Click += Update_Click;
+
+                Button delete = new Button()
+                {
+                    Text = "Delete",
+                    Size = new Size(100, 40),
+                    BackColor = Color.Purple,
+                    ForeColor = Color.White,
+                    Location = new Point(530, 20),
+                    Font = new Font(Font.FontFamily, 10)
+                };
+
+                delete.Click += Delete_Click;
+
+                this.Controls.Add(select);
+                this.Controls.Add(insert);
+                this.Controls.Add(update);
+                this.Controls.Add(delete);
+            }
+            else
             {
-                Text = "Update",
-                Size = new Size(100, 40),
-                BackColor = Color.Purple,
-                ForeColor = Color.White,
-                Location = new Point(375, 20),
-                Font = new Font(Font.FontFamily, 10)
-            };
-
-            update.Click += Update_Click;
-
-            Button delete = new Button()
-            {
-                Text = "Delete",
-                Size = new Size(100, 40),
-                BackColor = Color.Purple,
-                ForeColor = Color.White,
-                Location = new Point(530, 20),
-                Font = new Font(Font.FontFamily, 10)
-            };
-
-            delete.Click += Delete_Click;
-
-            this.Controls.Add(select);
-            this.Controls.Add(insert);
-            this.Controls.Add(update);
-            this.Controls.Add(delete);
+                login_txt.Text = "";
+                password_txt.Text = "";
+                MessageBox.Show("Error, uncorrect login or password");                
+            }
         }
 
         private void select_Click(object sender, EventArgs e)
@@ -158,14 +249,18 @@ namespace MinuVorm
                 text4_UP.Hide();
                 add_UP.Hide();
                 dataGridView1.Hide();
-                dataGridView2.Hide();
                 lbl_ID.Hide();
-                lbl_ID_1.Hide();
                 text5_UP.Hide();
                 lbl5_UP.Hide();
+            }
+
+            if (lbl_ID_1 != null)
+            {
+                lbl_ID_1.Hide();
                 lbl5_DL.Hide();
                 text5_DL.Hide();
                 add_DL.Hide();
+                dataGridView2.Hide();
             }
         }
 
@@ -191,14 +286,18 @@ namespace MinuVorm
                 text4_UP.Hide();
                 add_UP.Hide();
                 dataGridView1.Hide();
-                dataGridView2.Hide();
                 lbl_ID.Hide();
-                lbl_ID_1.Hide();
                 text5_UP.Hide();
-                lbl5_UP.Hide();
+                lbl5_UP.Hide();               
+            }
+
+            if (lbl_ID_1 != null)
+            {
+                lbl_ID_1.Hide();
                 lbl5_DL.Hide();
                 text5_DL.Hide();
-                add_DL.Hide();                
+                add_DL.Hide();
+                dataGridView2.Hide();
             }
 
             title = new Label()

@@ -34,3 +34,15 @@ C:\Users\Admin\source\repos\dataKino\obj\Debug\MinuVorm.csproj.GenerateResource.
 C:\Users\Admin\source\repos\dataKino\obj\Debug\MinuVorm.csproj.CoreCompileInputs.cache
 C:\Users\Admin\source\repos\dataKino\obj\Debug\MinuVorm.exe
 C:\Users\Admin\source\repos\dataKino\obj\Debug\MinuVorm.pdb
+C:\Users\opilane\source\repos\dataCinema\dataKino\bin\Debug\AppData\Kino_DB.mdf
+C:\Users\opilane\source\repos\dataCinema\dataKino\bin\Debug\AppData\Kino_DB_log.ldf
+C:\Users\opilane\source\repos\dataCinema\dataKino\bin\Debug\MinuVorm.exe.config
+C:\Users\opilane\source\repos\dataCinema\dataKino\bin\Debug\MinuVorm.exe
+C:\Users\opilane\source\repos\dataCinema\dataKino\bin\Debug\MinuVorm.pdb
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.csprojAssemblyReference.cache
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.MyForm.resources
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.Properties.Resources.resources
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.csproj.GenerateResource.cache
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.csproj.CoreCompileInputs.cache
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.exe
+C:\Users\opilane\source\repos\dataCinema\dataKino\obj\Debug\MinuVorm.pdb
