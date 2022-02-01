@@ -131,6 +131,7 @@
     </Content>
     <Content Include="image\administrator_102921.ico" />
     <Content Include="image\Avatar.jpg" />
+    <Content Include="image\cinema.ico" />
     <Content Include="image\DoctorStrange.jpg" />
     <Content Include="image\left.png" />
     <Content Include="image\right.png" />

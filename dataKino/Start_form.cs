@@ -29,6 +29,7 @@ namespace MinuVorm
             this.Size = new System.Drawing.Size(700, 900);
             this.BackgroundImage = new Bitmap("../../image/wallpaper.jpg");
             this.Text = "Cinema 'Galaxy'";
+            this.Icon = Properties.Resources.cinema;
 
             listOfMovies_2 = new List<string>() { "Avatar", "DoctorStrange", "StarWars" };
 
@@ -100,6 +101,12 @@ namespace MinuVorm
 
             listOfMovies = new List<string>() { "Avatar.jpg", "DoctorStrange.jpg", "StarWars.jpg" };
 
+            var dictionary = new Dictionary<int, string>()
+            {
+                {12, "Doctor Strange"},
+                {13, "Avatar"},
+                {14, "Star Wars"}
+            };
 
             choose = new Button()
             {
