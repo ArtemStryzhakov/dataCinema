@@ -50,7 +50,7 @@ namespace MinuVorm
         //-------------
         Button add_DL;
 
-        public static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        public static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=..\..\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
         public SqlCommand command;
