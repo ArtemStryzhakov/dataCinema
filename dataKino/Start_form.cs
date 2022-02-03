@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,8 @@ namespace MinuVorm
 {
     class Start_form: System.Windows.Forms.Form
     {
+        public static Administrator admin = new Administrator();
+
         public List<string> listOfMovies;
         public List<string> listOfMovies_2;
         public Label nameMovie;
@@ -69,6 +73,17 @@ namespace MinuVorm
             Size size_pl = TextRenderer.MeasureText(lbl_w.Text, lbl_w.Font);
             lbl_w.Size = new Size(size_pl.Width, size_pl.Height);
 
+            /*admin.connect_to_DB.Open();
+            DataTable tabel = new DataTable();
+            dataGridView = new DataGridView();
+
+            SqlDataAdapter adapter = new SqlDataAdapter("select name, dateM from [dbo].[Movie]", admin.connect_to_DB);
+            adapter.Fill(tabel);
+            dataGridView.DataSource = tabel;
+            dataGridView.Location = new Point(210, 175);
+            dataGridView.Size = new Size(240, 200);
+            this.Controls.Add(dataGridView);
+            connect_to_DB.Close();*/
             picture = new PictureBox()
             {
                 Size = new Size(400, 650),
@@ -140,8 +155,68 @@ namespace MinuVorm
             this.Controls.Add(lbl_w);
             this.Controls.Add(btn_scroll_back);
             this.Controls.Add(btn_scroll_next);
-            this.Controls.Add(picture);
+            this.Controls.Add(picture);           
         }
+
+        public static string[][] SelectFromDB(string query)
+        {
+            admin.connect_to_DB.Open();
+            admin.adapter = new SqlDataAdapter($"{query}", admin.connect_to_DB);
+            DataTable table = new DataTable();
+            admin.adapter.Fill(table);
+            string[][] helpA = new string[table.Rows.Count][];
+            string[] helpB;
+            var index = 0;
+            var index2 = 0;
+            foreach (DataRow row in table.Rows)
+            {
+                helpB = new string[table.Rows[0].ItemArray.Length];
+                index2 = 0;
+                foreach (var item in row.ItemArray)
+                {
+                    helpB[index2++] = item.ToString();
+                }
+                helpA[index++] = helpB;
+            }
+            admin.connect_to_DB.Close();
+            foreach (var item in helpA)
+            {
+                Console.WriteLine(item);
+            }
+            return helpA;
+        }
+
+        /*public FormAgain(bool movie)
+        {
+            string[][] movieInfo = SelectFromDB("Select film.[name], film.fail, hall.[name],hall.x,hall.y from teatr, film, hall where teatr.filmID=film.id and teatr.hallID=hall.id");
+            this.Text = "Ollopa Cinema Movie selection";
+            this.BackColor = Color.Orange;
+            this.ForeColor = Color.Black;
+            this.Size = new Size(900, 700);
+            btn_tbl = new Button()
+            {
+                Location = new Point(370, 500),
+                Size = new Size(160, 70),
+                Text = "===>",
+                Name = "next_btn",
+            };
+            btn_tbl.Click += HallClick;
+            this.Controls.Add(btn_tbl);
+            
+            picture = new PictureBox()
+            {
+                Size = new Size(400, 650),
+                Location = new Point(140, 100),
+                ImageLocation = ("../../image/start.gif"),
+                SizeMode = PictureBoxSizeMode.StretchImage
+            };
+
+            this.Controls.Add(picture);
+
+            pic.Click += Pic_Click;
+            this.Controls.Add(pic);
+            this.FormClosing += MovieClose;
+        }*/
 
         private void Administrator_Click(object sender, EventArgs e)
         {
@@ -165,6 +240,7 @@ namespace MinuVorm
             select.Show();
             lbl_w.Hide();
             nameMovie.Show();
+            administrator.Hide();
         }
 
         public void Btn_scroll_next_Click(object sender, EventArgs e)

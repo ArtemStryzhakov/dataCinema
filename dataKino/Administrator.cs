@@ -50,7 +50,7 @@ namespace MinuVorm
         //-------------
         Button add_DL;
 
-        public static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        public static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
         public SqlCommand command;
@@ -58,6 +58,8 @@ namespace MinuVorm
         DataGridView dataGridView;
         DataGridView dataGridView1;
         DataGridView dataGridView2;
+
+        public SqlDataAdapter adapter;
 
         public Administrator()
         {
@@ -518,7 +520,7 @@ namespace MinuVorm
             DataTable tabel = new DataTable();
             dataGridView1 = new DataGridView();
 
-            SqlDataAdapter adapter = new SqlDataAdapter("select id, name, genre, dateM, image from [dbo].[Movie]", connect_to_DB);
+            adapter = new SqlDataAdapter("select id, name, genre, dateM, image from [dbo].[Movie]", connect_to_DB);
             adapter.Fill(tabel);
             dataGridView1.DataSource = tabel;
             dataGridView1.Location = new Point(50, 370);
@@ -609,17 +611,27 @@ namespace MinuVorm
             DataTable tabel = new DataTable();
             dataGridView2 = new DataGridView();
 
-            SqlDataAdapter adapter = new SqlDataAdapter("select id, name, dateM from [dbo].[Movie]", connect_to_DB);
+            SqlDataAdapter adapter = new SqlDataAdapter("select * from [dbo].[Movie]", connect_to_DB);
             adapter.Fill(tabel);
+ 
+            dataGridView2.DataBindingComplete += DataGridView2_DataBindingComplete;
+
             dataGridView2.DataSource = tabel;
             dataGridView2.Location = new Point(150, 200);
-            dataGridView2.Size = new Size(355, 150);
-
+            dataGridView2.Size = new Size(355, 150);           
+            
             dataGridView2.RowHeaderMouseClick += DataGridView2_RowHeaderMouseClick;
-
+            
             this.Controls.Add(dataGridView2);
 
             this.Controls.Add(add_DL);
+        }
+
+        private void DataGridView2_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            DataGridView gay = sender as DataGridView;
+            gay.Columns["genre"].Visible = false;
+            gay.Columns["image"].Visible = false;
         }
 
         private void DataGridView2_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -638,6 +650,8 @@ namespace MinuVorm
             MessageBox.Show("Delete is completed.");
 
             connect_to_DB.Close();
+
+            RefreshTable("Movie", dataGridView2);
         }
 
         private void Add_UP_Click(object sender, EventArgs e)
@@ -654,6 +668,18 @@ namespace MinuVorm
 
             MessageBox.Show("Update is completed.");
 
+            connect_to_DB.Close();
+
+            RefreshTable("Movie", dataGridView1);
+        }
+
+        private void RefreshTable(string name, DataGridView dgv)
+        {
+            connect_to_DB.Open();
+            DataTable table = new DataTable();
+            adapter = new SqlDataAdapter($"select * from {name}", connect_to_DB);
+            adapter.Fill(table);
+            dgv.DataSource = table;
             connect_to_DB.Close();
         }
     }
