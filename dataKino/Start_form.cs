@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +16,11 @@ namespace MinuVorm
     {
         public static Administrator admin = new Administrator();
 
-        public List<string> listOfMovies;
-        public List<string> listOfMovies_2;
+        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\kotem\Source\Repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        public SqlConnection connect_to_DB;
+        public SqlCommand command;
+        public SqlDataAdapter adapter;
+        public List<string> listOfPictures, listOfNames;
         public Label nameMovie;
         Label lbl_w;
         public PictureBox picture;
@@ -30,13 +35,19 @@ namespace MinuVorm
 
         public Start_form()
         {
+            connect_to_DB = new SqlConnection(conn_KinoDB);
             this.Size = new System.Drawing.Size(700, 900);
             this.BackgroundImage = new Bitmap("../../image/wallpaper.jpg");
             this.Text = "Cinema 'Galaxy'";
             this.Icon = Properties.Resources.cinema;
 
-            listOfMovies_2 = new List<string>() { "Avatar", "DoctorStrange", "StarWars" };
 
+
+            //listOfMovies_2 = new List<string>() { "Avatar", "DoctorStrange", "StarWars" };
+            //listOfMovies = new List<string>() { "Avatar.jpg", "DoctorStrange.jpg", "StarWars.jpg" };
+            listOfNames = new List<string>();
+            listOfPictures = new List<string>();
+            GetFromDB();
             administrator = new Button()
             {
                 Text = "Add movie",
@@ -51,7 +62,7 @@ namespace MinuVorm
 
             nameMovie = new Label()
             {
-                Text = listOfMovies_2[m],
+                Text = listOfNames[m],
                 Font = new Font(Font.FontFamily, 20),
                 Location = new Point(240, 50),
                 BackColor = Color.Purple,
@@ -84,6 +95,7 @@ namespace MinuVorm
             dataGridView.Size = new Size(240, 200);
             this.Controls.Add(dataGridView);
             connect_to_DB.Close();*/
+
             picture = new PictureBox()
             {
                 Size = new Size(400, 650),
@@ -114,14 +126,14 @@ namespace MinuVorm
             btn_scroll_next.Hide();
             //----------------------------------------------------------
 
-            listOfMovies = new List<string>() { "Avatar.jpg", "DoctorStrange.jpg", "StarWars.jpg" };
+            
 
-            var dictionary = new Dictionary<int, string>()
+            /*var dictionary = new Dictionary<int, string>()
             {
                 {12, "Doctor Strange"},
                 {13, "Avatar"},
                 {14, "Star Wars"}
-            };
+            };*/
 
             choose = new Button()
             {
@@ -158,16 +170,29 @@ namespace MinuVorm
             this.Controls.Add(picture);           
         }
 
+        private void GetFromDB()
+        {
+            listOfNames = new List<string>();
+            listOfPictures = new List<string>();
+            adapter = new SqlDataAdapter($"Select name, image from Movie", connect_to_DB);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            foreach (DataRow item in table.Rows)
+            {
+                listOfPictures.Add(item.ItemArray[1].ToString());
+                listOfNames.Add(item.ItemArray[0].ToString());
+            }
+        }
         public static string[][] SelectFromDB(string query)
         {
             admin.connect_to_DB.Open();
-            admin.adapter = new SqlDataAdapter($"{query}", admin.connect_to_DB);
+            admin.adapter = new SqlDataAdapter(query, admin.connect_to_DB);
             DataTable table = new DataTable();
             admin.adapter.Fill(table);
             string[][] helpA = new string[table.Rows.Count][];
             string[] helpB;
-            var index = 0;
-            var index2 = 0;
+            int index = 0;
+            int index2;
             foreach (DataRow row in table.Rows)
             {
                 helpB = new string[table.Rows[0].ItemArray.Length];
@@ -235,7 +260,7 @@ namespace MinuVorm
         {
             btn_scroll_back.Show();
             btn_scroll_next.Show();
-            picture.ImageLocation = ($"../../image/{listOfMovies[m]}");
+            picture.Image = SaveImage(listOfPictures[m]);
             choose.Hide();
             select.Show();
             lbl_w.Hide();
@@ -257,10 +282,9 @@ namespace MinuVorm
         {
             if (m <= 1)
             {
-                btn_scroll_back.Show();
                 m++;
-                picture.ImageLocation = ($"../../image/{listOfMovies[m]}");
-                nameMovie.Text = listOfMovies_2[m];
+                picture.Image = SaveImage(listOfPictures[m]);
+                nameMovie.Text = listOfNames[m];
                 if (m == 0 || m == 2)
                 {
                     nameMovie.Location = new Point(290, 50);
@@ -270,9 +294,11 @@ namespace MinuVorm
                     nameMovie.Location = new Point(240, 50);
                 }
             }
-            if (m == 2)
+            else if (m == 2)
             {
-                btn_scroll_next.Hide();
+                m = 0;
+                picture.Image = SaveImage(listOfPictures[m]);
+                nameMovie.Text = listOfNames[m];
             }
 
             return nameMovie.Text;
@@ -282,10 +308,9 @@ namespace MinuVorm
         {
             if (m > 0)
             {
-                btn_scroll_next.Show();
                 m--;
-                picture.ImageLocation = ($"../../image/{listOfMovies[m]}");
-                nameMovie.Text = listOfMovies_2[m];
+                picture.Image = SaveImage(listOfPictures[m]);
+                nameMovie.Text = listOfNames[m];
                 if (m == 0 || m == 2)
                 {
                     nameMovie.Location = new Point(290, 50);
@@ -295,11 +320,29 @@ namespace MinuVorm
                     nameMovie.Location = new Point(240, 50);
                 }
             }
-            if (m == 0)
+            else if (m == 0)
             {
-                btn_scroll_back.Hide();
+                m = listOfPictures.Count-1;
+                picture.Image = SaveImage(listOfPictures[m]);
+                nameMovie.Text = listOfNames[m];
             }
             return nameMovie.Text;
+        }
+        public Bitmap SaveImage(string imageUrl)
+        {
+            try { Uri url = new Uri(imageUrl); } catch { return null; }
+            WebClient client = new WebClient();
+            Stream stream; stream = client.OpenRead(imageUrl);
+            Bitmap bitmap; bitmap = new Bitmap(stream);
+
+            stream.Flush();
+            stream.Close();
+            client.Dispose();
+            if (bitmap != null)
+            {
+                return bitmap;
+            }
+            return null;
         }
     }
 }
