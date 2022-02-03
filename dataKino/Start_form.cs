@@ -182,6 +182,7 @@ namespace MinuVorm
                 listOfPictures.Add(item.ItemArray[1].ToString());
                 listOfNames.Add(item.ItemArray[0].ToString());
             }
+            connect_to_DB.Close();
         }
         public static string[][] SelectFromDB(string query)
         {

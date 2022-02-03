@@ -39,7 +39,7 @@ namespace MinuVorm
 
             tbox = new TextBox()
             {
-                Text = "programmeeriminetthk@gmail.com",
+                Text = "programmeeriminetthk2@gmail.com",
                 Location = new Point(140, 190),
                 Size = new Size(200, 120)
             };
@@ -82,7 +82,7 @@ namespace MinuVorm
             form.connect_to_DB.Close();
 
             //message.Attachments.Add(new Attachment("file.pdf"));
-            string email = "programmeeriminetthk@gmail.com";
+            string email = "programmeeriminetthk2@gmail.com";
             string password = "2.kuursus tarpv20";
             SmtpClient client = new SmtpClient("smtp.gmail.com");
             client.Port = 587;

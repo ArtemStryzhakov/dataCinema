@@ -26,10 +26,10 @@ namespace MinuVorm
         public static Pilet pilet;
         int k, r;
         static string[] read_kohad;
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=../../AppData/Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\kotem\Source\Repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
-
+        
         public SqlCommand command;
         SqlDataAdapter adapter;
         public MyForm()
@@ -38,7 +38,7 @@ namespace MinuVorm
         public MyForm(string title,string body,string button1,string button2,string button3,string button4)
         {
             this.ClientSize = new System.Drawing.Size(400, 100);
-
+            this.FormClosing += (s, e) => connect_to_DB.Close();
             Button btn1 = new Button()
             {
                 Location = new Point(10, 50),
@@ -242,7 +242,7 @@ namespace MinuVorm
             if (vas == DialogResult.Yes)
             {
                 btn_click.BackColor = Color.Red;
-                try
+                /*try
                 {
                     pilet = new Pilet(rida, koht);
                     piletid.Add(pilet);
@@ -270,7 +270,12 @@ namespace MinuVorm
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                }
+                }*/
+                connect_to_DB.Open();
+                Random rnd = new Random();
+                SqlCommand cmd = new SqlCommand($"insert into piletid(Rida, Koht, Film) values({rida}, {koht}, { rnd.Next(0,2) })", connect_to_DB);
+                cmd.ExecuteNonQuery();
+
             }
             else if (vas == DialogResult.No)
             {
