@@ -70,3 +70,15 @@ C:\Users\kotem\Source\Repos\dataCinema\dataKino\obj\Debug\MinuVorm.csproj.Genera
 C:\Users\kotem\Source\Repos\dataCinema\dataKino\obj\Debug\MinuVorm.csproj.CoreCompileInputs.cache
 C:\Users\kotem\Source\Repos\dataCinema\dataKino\obj\Debug\MinuVorm.exe
 C:\Users\kotem\Source\Repos\dataCinema\dataKino\obj\Debug\MinuVorm.pdb
+C:\Users\Admin\source\repos\dataCinema3\dataKino\bin\Debug\AppData\Kino_DB.mdf
+C:\Users\Admin\source\repos\dataCinema3\dataKino\bin\Debug\AppData\Kino_DB_log.ldf
+C:\Users\Admin\source\repos\dataCinema3\dataKino\bin\Debug\MinuVorm.exe.config
+C:\Users\Admin\source\repos\dataCinema3\dataKino\bin\Debug\MinuVorm.exe
+C:\Users\Admin\source\repos\dataCinema3\dataKino\bin\Debug\MinuVorm.pdb
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.csproj.AssemblyReference.cache
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.MyForm.resources
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.Properties.Resources.resources
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.csproj.GenerateResource.cache
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.csproj.CoreCompileInputs.cache
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.exe
+C:\Users\Admin\source\repos\dataCinema3\dataKino\obj\Debug\MinuVorm.pdb

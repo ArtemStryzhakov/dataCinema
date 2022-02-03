@@ -26,7 +26,7 @@ namespace MinuVorm
         public static Pilet pilet;
         int k, r;
         static string[] read_kohad;
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\kotem\Source\Repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema3\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
         
@@ -138,27 +138,8 @@ namespace MinuVorm
         }
         public string[] Ostetud_piletid()
         {
-            try               
-            {/*
-                if (Start_form.m == 0)
-                {
-                    StreamReader f = new StreamReader(@"../../Piletid/Avatar.txt");
-                    read_kohad = f.ReadToEnd().Split(';');
-                    f.Close();
-                }
-                else if (Start_form.m == 1)
-                {
-                    StreamReader f = new StreamReader(@"../../Piletid/DoctorStrange.txt");
-                    read_kohad = f.ReadToEnd().Split(';');
-                    f.Close();
-                }
-                else
-                {                 
-                    StreamReader f = new StreamReader(@"../../Piletid/StarWars.txt");
-                    read_kohad = f.ReadToEnd().Split(';');
-                    f.Close();
-                }*/
-
+            try
+            {
                 connect_to_DB.Open();
                 adapter = new SqlDataAdapter("select * from [dbo].[Piletid]", connect_to_DB);
                 DataTable tabel = new DataTable();
@@ -183,7 +164,6 @@ namespace MinuVorm
         {
             btn_tabel = new Button
             {
-                Text = string.Format($"{r + 1}{k + 1}"),
                 Name = string.Format("{1}{0}", k+1, r+1),
                 Dock = DockStyle.Fill,
                 BackColor = Color.Green
@@ -273,7 +253,7 @@ namespace MinuVorm
                 }*/
                 connect_to_DB.Open();
                 Random rnd = new Random();
-                SqlCommand cmd = new SqlCommand($"insert into piletid(Rida, Koht, Film) values({rida}, {koht}, { rnd.Next(0,2) })", connect_to_DB);
+                SqlCommand cmd = new SqlCommand($"insert into Piletid(Rida, Koht, Film) values({rida}, {koht}, '{startForm.nameMovie.Text}')", connect_to_DB);
                 cmd.ExecuteNonQuery();
 
             }

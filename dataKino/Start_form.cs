@@ -16,7 +16,7 @@ namespace MinuVorm
     {
         public static Administrator admin = new Administrator();
 
-        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\kotem\Source\Repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema3\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
         public SqlConnection connect_to_DB;
         public SqlCommand command;
         public SqlDataAdapter adapter;
@@ -285,16 +285,9 @@ namespace MinuVorm
             {
                 m++;
                 picture.Image = SaveImage(listOfPictures[m]);
-                nameMovie.Text = listOfNames[m];
-                if (m == 0 || m == 2)
-                {
-                    nameMovie.Location = new Point(290, 50);
-                }
-                else
-                {
-                    nameMovie.Location = new Point(240, 50);
-                }
+                nameMovie.Text = listOfNames[m];            
             }
+
             else if (m == 2)
             {
                 m = 0;
@@ -312,15 +305,8 @@ namespace MinuVorm
                 m--;
                 picture.Image = SaveImage(listOfPictures[m]);
                 nameMovie.Text = listOfNames[m];
-                if (m == 0 || m == 2)
-                {
-                    nameMovie.Location = new Point(290, 50);
-                }
-                else
-                {
-                    nameMovie.Location = new Point(240, 50);
-                }
             }
+
             else if (m == 0)
             {
                 m = listOfPictures.Count-1;
