@@ -25,8 +25,10 @@ namespace MinuVorm
         public static List<Pilet> piletid;
         public static Pilet pilet;
         int k, r;
+        public static int rida, koht;
+
         static string[] read_kohad;
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema3\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
         
@@ -216,8 +218,8 @@ namespace MinuVorm
             Button btn_click = (Button)sender;
             btn_click.BackColor = Color.Yellow;
             MessageBox.Show(btn_click.Name.ToString());
-            var rida = int.Parse(btn_click.Name[0].ToString());
-            var koht = int.Parse(btn_click.Name[1].ToString());
+            rida = int.Parse(btn_click.Name[0].ToString());
+            koht = int.Parse(btn_click.Name[1].ToString());
             var vas = MessageBox.Show("Sinu pilet on: Rida: " + rida + " Koht: " +koht, "Kas ostad?", MessageBoxButtons.YesNo);
             if (vas == DialogResult.Yes)
             {

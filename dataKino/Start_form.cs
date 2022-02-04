@@ -16,7 +16,7 @@ namespace MinuVorm
     {
         public static Administrator admin = new Administrator();
 
-        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema3\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
         public SqlConnection connect_to_DB;
         public SqlCommand command;
         public SqlDataAdapter adapter;
@@ -184,65 +184,6 @@ namespace MinuVorm
             }
             connect_to_DB.Close();
         }
-        public static string[][] SelectFromDB(string query)
-        {
-            admin.connect_to_DB.Open();
-            admin.adapter = new SqlDataAdapter(query, admin.connect_to_DB);
-            DataTable table = new DataTable();
-            admin.adapter.Fill(table);
-            string[][] helpA = new string[table.Rows.Count][];
-            string[] helpB;
-            int index = 0;
-            int index2;
-            foreach (DataRow row in table.Rows)
-            {
-                helpB = new string[table.Rows[0].ItemArray.Length];
-                index2 = 0;
-                foreach (var item in row.ItemArray)
-                {
-                    helpB[index2++] = item.ToString();
-                }
-                helpA[index++] = helpB;
-            }
-            admin.connect_to_DB.Close();
-            foreach (var item in helpA)
-            {
-                Console.WriteLine(item);
-            }
-            return helpA;
-        }
-
-        /*public FormAgain(bool movie)
-        {
-            string[][] movieInfo = SelectFromDB("Select film.[name], film.fail, hall.[name],hall.x,hall.y from teatr, film, hall where teatr.filmID=film.id and teatr.hallID=hall.id");
-            this.Text = "Ollopa Cinema Movie selection";
-            this.BackColor = Color.Orange;
-            this.ForeColor = Color.Black;
-            this.Size = new Size(900, 700);
-            btn_tbl = new Button()
-            {
-                Location = new Point(370, 500),
-                Size = new Size(160, 70),
-                Text = "===>",
-                Name = "next_btn",
-            };
-            btn_tbl.Click += HallClick;
-            this.Controls.Add(btn_tbl);
-            
-            picture = new PictureBox()
-            {
-                Size = new Size(400, 650),
-                Location = new Point(140, 100),
-                ImageLocation = ("../../image/start.gif"),
-                SizeMode = PictureBoxSizeMode.StretchImage
-            };
-
-            this.Controls.Add(picture);
-
-            pic.Click += Pic_Click;
-            this.Controls.Add(pic);
-            this.FormClosing += MovieClose;
-        }*/
 
         private void Administrator_Click(object sender, EventArgs e)
         {

@@ -68,18 +68,9 @@ namespace MinuVorm
 
         public void Saada_piletid(List<Pilet> piletid, string eMail)
         {
-            form.connect_to_DB.Open();
             string text = "Sinu pilet on ostad. \n";
-            foreach (var item in piletid)
-            {
-                text += "<h1>Film: " + startForm.nameMovie.Text + "<br>Pilet: rida: " + item.Rida + "; roht: " + item.Koht + "</h1>\n";
-                form.command = new SqlCommand("insert into Piletid(Rida, Koht, Film) values(@rida, @koht, @film)", form.connect_to_DB);
-                form.command.Parameters.AddWithValue("@rida", item.Rida);
-                form.command.Parameters.AddWithValue("@koht", item.Koht);
-                form.command.Parameters.AddWithValue("@film", 1);
-                form.command.ExecuteNonQuery();
-            }
-            form.connect_to_DB.Close();
+
+            text += "<h1>Film: " + startForm.listOfNames[Start_form.m].ToString() + "<br>Pilet: rida: " + MyForm.rida + "; koht: " + MyForm.koht + "</h1>\n";
 
             //message.Attachments.Add(new Attachment("file.pdf"));
             string email = "programmeeriminetthk2@gmail.com";
