@@ -16,11 +16,11 @@ namespace MinuVorm
     {
         public static Administrator admin = new Administrator();
 
-        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        public string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
         public SqlConnection connect_to_DB;
         public SqlCommand command;
         public SqlDataAdapter adapter;
-        public List<string> listOfPictures, listOfNames;
+        public static List<string> listOfPictures, listOfNames;
         public Label nameMovie;
         Label lbl_w;
         public PictureBox picture;
@@ -226,7 +226,7 @@ namespace MinuVorm
             {
                 m++;
                 picture.Image = SaveImage(listOfPictures[m]);
-                nameMovie.Text = listOfNames[m];            
+                nameMovie.Text = listOfNames[m];
             }
 
             else if (m == 2)

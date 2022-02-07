@@ -28,7 +28,7 @@ namespace MinuVorm
         public static int rida, koht;
 
         static string[] read_kohad;
-        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\opilane\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
+        static string conn_KinoDB = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Admin\source\repos\dataCinema\dataKino\AppData\Kino_DB.mdf;Integrated Security=True";
 
         public SqlConnection connect_to_DB = new SqlConnection(conn_KinoDB);
         
@@ -143,7 +143,7 @@ namespace MinuVorm
             try
             {
                 connect_to_DB.Open();
-                adapter = new SqlDataAdapter("select * from [dbo].[Piletid]", connect_to_DB);
+                adapter = new SqlDataAdapter($"select * from [dbo].[Piletid] where Film = '{Start_form.listOfNames[Start_form.m]}'", connect_to_DB);
                 DataTable tabel = new DataTable();
                 adapter.Fill(tabel);
                 read_kohad = new string[tabel.Rows.Count];

@@ -70,7 +70,7 @@ namespace MinuVorm
         {
             string text = "Sinu pilet on ostad. \n";
 
-            text += "<h1>Film: " + startForm.listOfNames[Start_form.m].ToString() + "<br>Pilet: rida: " + MyForm.rida + "; koht: " + MyForm.koht + "</h1>\n";
+            text += "<h1>Film: " + Start_form.listOfNames[Start_form.m].ToString() + "<br>Pilet: rida: " + MyForm.rida + "; koht: " + MyForm.koht + "</h1>\n";
 
             //message.Attachments.Add(new Attachment("file.pdf"));
             string email = "programmeeriminetthk2@gmail.com";
